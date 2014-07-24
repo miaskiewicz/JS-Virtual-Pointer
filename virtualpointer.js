@@ -83,7 +83,14 @@ var virtualpointer = function() {
         for (var i = 1; i <= increments; i++) {
             var new_x_pos = Math.round(x_distance / increments * i) + mouse_position.x,
                 new_y_pos = Math.round(y_distance / increments * i) + mouse_position.y;
-            event_queue.push({pageX: new_x_pos, pageY: new_y_pos, screenX: new_x_pos + default_screen_x_offset, screenY: new_y_pos + default_screen_y_offset, type: "mousemove", timestamp: i * default_interval});
+                
+            event_queue.push({
+                                pageX: new_x_pos, 
+                                pageY: new_y_pos, 
+                                screenX: new_x_pos + default_screen_x_offset, 
+                                screenY: new_y_pos + default_screen_y_offset, 
+                                type: "mousemove", timestamp: i * default_interval
+                            });
         }
         
     }
@@ -106,13 +113,62 @@ var virtualpointer = function() {
 
         // mobile events are different (touchstart)
         if (is_mobile) {
-            event_queue.push({type: "touchstart", pageX: x_offset, pageY: x_offset, screenX: x_offset, screenY: y_offset, timestamp: last_timestamp, target: element, is_touch_event: touch_event});
-            event_queue.push({type: "touchend", pageX: x_offset, pageY: x_offset, screenX: x_offset, screenY: y_offset, timestamp: last_timestamp + default_click_duration, target: element, is_touch_event: touch_event});
+
+            event_queue.push({
+                                type: "touchstart", 
+                                pageX: x_offset, 
+                                pageY: y_offset, 
+                                screenX: x_offset, 
+                                screenY: y_offset, 
+                                timestamp: last_timestamp, 
+                                target: element, 
+                                is_touch_event: touch_event
+                            });
+
+            event_queue.push({
+                                type: "touchend", 
+                                pageX: x_offset, 
+                                pageY: y_offset, 
+                                screenX: x_offset, 
+                                screenY: y_offset, 
+                                timestamp: last_timestamp + default_click_duration, 
+                                target: element, is_touch_event: touch_event
+                            });
         } else {
-            event_queue.push({type: "mousedown", pageX: x_offset, pageY: x_offset, screenX: x_offset + default_screen_x_offset, screenY: y_offset + default_screen_y_offset, timestamp: last_timestamp, target: element, is_touch_event: touch_event});
-            event_queue.push({type: "mouseup", pageX: x_offset, pageY: x_offset, screenX: x_offset + default_screen_x_offset, screenY: y_offset + default_screen_y_offset, timestamp: last_timestamp + default_click_duration, target: element, is_touch_event: touch_event});
+
+            event_queue.push({
+                                type: "mousedown", 
+                                pageX: x_offset, 
+                                pageY: y_offset, 
+                                screenX: x_offset + default_screen_x_offset, 
+                                screenY: y_offset + default_screen_y_offset, 
+                                timestamp: last_timestamp, 
+                                target: element, 
+                                is_touch_event: touch_event
+                            });
+
+            event_queue.push({
+                                type: "mouseup", 
+                                pageX: x_offset, 
+                                pageY: x_offset, 
+                                screenX: x_offset + default_screen_x_offset, 
+                                screenY: y_offset + default_screen_y_offset, 
+                                timestamp: last_timestamp + default_click_duration, 
+                                target: element, 
+                                is_touch_event: touch_event
+                            });
         }
-        event_queue.push({type: "click", pageX: x_offset, pageY: x_offset, screenX: x_offset + default_screen_x_offset, screenY: y_offset + default_screen_y_offset, timestamp: last_timestamp + default_click_duration + 10, target: element, is_touch_event: touch_event});
+
+        event_queue.push({
+                            type: "click", 
+                            pageX: x_offset, 
+                            pageY: x_offset, 
+                            screenX: x_offset + default_screen_x_offset, 
+                            screenY: y_offset + default_screen_y_offset, 
+                            timestamp: last_timestamp + default_click_duration + 10, 
+                            target: element, 
+                            is_touch_event: touch_event
+                        });
     }
 
     // move screen to element with correct touch events, as in mobile or tablet browser
@@ -129,20 +185,46 @@ var virtualpointer = function() {
 
         if (!duration) duration = default_flick_duration;
 
-        event_queue.push({type: "touchstart", pageX: mouse_position.x, pageY: mouse_position.y, screenX: mouse_position.x, screenY: mouse_position.y, timestamp: 0, target: element, is_touch_event: true});
+        event_queue.push({
+                            type: "touchstart", 
+                            pageX: mouse_position.x, 
+                            pageY: mouse_position.y, 
+                            screenX: mouse_position.x, 
+                            screenY: mouse_position.y, 
+                            timestamp: 0, 
+                            target: element, 
+                            is_touch_event: true
+                        });
 
         // determine number of increments
         var increments = duration / default_interval; // divide number of milliseconds for duration by 20, since we want to send events every 20ish milliseconds
         for (var i = 1; i <= increments; i++) {
             var new_x_pos = Math.round(x_distance / increments * i) + mouse_position.x,
                 new_y_pos = Math.round(y_distance / increments * i) + mouse_position.y;
-            event_queue.push({type: "touchmove", pageX: new_x_pos, pageY: new_y_pos, screenX: new_x_pos, screenY: new_y_pos, timestamp: i * default_interval, target: element, is_touch_event: true});
+            event_queue.push({
+                                type: "touchmove", pageX: new_x_pos, 
+                                pageY: new_y_pos, 
+                                screenX: new_x_pos, 
+                                screenY: new_y_pos, 
+                                timestamp: i * default_interval, 
+                                target: element, 
+                                is_touch_event: true
+                            });
         }
 
         // get timestamp of last event in queue
         var last_timestamp = (event_queue.length) ? event_queue[event_queue.length - 1].timestamp : 0;
 
-        event_queue.push({type: "touchend", pageX: x_offset, pageY: y_offset, screenX: x_offset, screenY: y_offset, timestamp: last_timestamp, target: element, is_touch_event: true});
+        event_queue.push({
+                            type: "touchend", 
+                            pageX: x_offset, 
+                            pageY: y_offset, 
+                            screenX: x_offset, 
+                            screenY: y_offset, 
+                            timestamp: last_timestamp, 
+                            target: element, 
+                            is_touch_event: true
+                        });
     }
 
     // function to begin execution of events inside event_queue
