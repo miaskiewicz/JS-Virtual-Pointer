@@ -2,12 +2,12 @@ var virtualpointer = function() {
     "use strict";
 
     // some default values for running events
-    var mouse_position = {x: 1, y: 1},
-        event_queue = [],
-        default_interval = 20,
-        first_event_offset = 50,
-        default_flick_duration = 200,
-        default_click_duration = Math.random() * (250 - 20) + 20,
+    var mouse_position          = {x: 1, y: 1},
+        event_queue             = [],
+        default_interval        = 20,
+        first_event_offset      = 50,
+        default_flick_duration  = 200,
+        default_click_duration  = Math.random() * (250 - 20) + 20,
         default_screen_x_offset = 1,
         default_screen_y_offset = 30;
 
@@ -255,28 +255,40 @@ var virtualpointer = function() {
     // exposed functions that can be valled using virtualpointer.function_name();
     return {
         move_mouse_to_element: function(element, duration) {
+            if (!element) return;
+            
             build_mouse_movement_queue(element, duration);
             start_processing_events();
         },
         click_element: function(element) {
+            if (!element) return;
+
             build_click_event_queue(element);
             start_processing_events();
         },
         move_to_element_and_click: function(element, duration) {
+            if (!element) return;
+
             build_mouse_movement_queue(element, duration);
             build_click_event_queue(element);
             start_processing_events();
         },
         tap_element: function(element) {
+            if (!element) return;
+
             build_click_event_queue(element, null, true);
             start_processing_events();
         },
         double_tap_element: function(element) {
+            if (!element) return;
+
             build_click_event_queue(element, null, true);
             build_click_event_queue(element, 25, true);
             start_processing_events();
         },
         flick_to_element: function(element, duration) {
+            if (!element) return;
+
             build_flick_event_queue(element, duration);
             start_processing_events();
         },
