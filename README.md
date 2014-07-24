@@ -31,3 +31,8 @@ open up example.html and open up the JavaScript console in your web-browser; you
 Dependencies
 ==================
 None; uses native JavaScript
+
+Potential Issues
+==================
+You can't run this inside a headless browser that depends on the jsdom.js library, such as Zombie.js, because jsdom.js doesn't have any notion of page layout (or dimensions of elements on the page) and does not implement getBoundingClientRect, etc.
+
