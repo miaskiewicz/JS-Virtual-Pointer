@@ -1,4 +1,5 @@
 virtualpointer = function() { 
+    // some defaults
     var mouse_position = {x: 1, y: 1},
         event_queue = [],
         default_interval = 20,
@@ -8,18 +9,24 @@ virtualpointer = function() {
         default_screen_y_offset = 30;
 
     function send_event(type, clientX, clientY, element, button, screenX, screenY) {
-        if (!screenX) screenX = clientX + 1;
-        if (!screenY) screenY = clientY + 50;
+        // calculate screenX and screenY if not provided
+        if (!screenX) screenX = clientX + default_screen_x_offset;
+        if (!screenY) screenY = clientY + default_screen_y_offset;
 
+        // if button is not specified, assume the button is the left mouse button
         if (!button && ( type == 'click' || type == 'mousedown' || type == 'mouseup' ) ) button = 0; // left button is default
 
-        var detail = (type !== 'mousemove') ? 1 : 0; // this is value for # of times this element has been clicked
+        // detail is the value for # of times this element has been clicked, set it to 1 when doing click events
+        var detail = (type !== 'mousemove') ? 1 : 0;
 
+        // construct new event object
         var eventObject = document.createEvent("MouseEvent");
         eventObject.initMouseEvent(type,  true, true, window, detail, screenX, screenY, clientX, clientY, false, false, false, false, button, null);
 
+        // if element specified, fire element on the event object
         if (element) {
             element.dispatchEvent(eventObject);
+        // otherwise fire it on document.body
         } else {
             document.body.dispatchEvent(eventObject);
         }
@@ -42,10 +49,10 @@ virtualpointer = function() {
 
     function build_mouse_movement_queue(element, duration) {
         // calculate position of element
-        var bodyRect = document.body.getBoundingClientRect(),
-            elemRect = element.getBoundingClientRect();
-        var y_offset = elemRect.top - bodyRect.top;
-        var x_offset = elemRect.left - bodyRect.left;
+        var body_rect = document.body.getBoundingClientRect(),
+            elem_rect = element.getBoundingClientRect();
+        var y_offset = elem_rect.top - body_rect.top;
+        var x_offset = elem_rect.left - body_rect.left;
 
         // calculate distance
         var x_distance = x_offset - mouse_position.x;
@@ -78,6 +85,7 @@ virtualpointer = function() {
     }
 
     return {
+        // exposed functions that can be valled using virtualpointer.function_name();
         move_mouse_to_element: function(element, duration) {
             build_mouse_movement_queue(element, duration);
             setTimeout(function() { process_event_queue(); }.bind(this), first_event_offset);

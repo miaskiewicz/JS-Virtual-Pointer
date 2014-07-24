@@ -1,7 +1,7 @@
 JS-Virtual-Pointer
 ==================
 
-Emulate a human's mouse-movements using this JavaScript-based virtual pointer; the correct events will be executed in JavaScript, as if a real human was interacting on the page
+Emulate a human's mouse-movements using this JavaScript-based virtual pointer; the correct events will be executed in JavaScript, as if a real human was interacting on the page in a desktop browser
 
 Usage
 ==================
