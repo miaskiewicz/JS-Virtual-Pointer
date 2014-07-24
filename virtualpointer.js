@@ -1,5 +1,5 @@
 virtualpointer = function() { 
-    // some defaults
+    // some default values for running events
     var mouse_position = {x: 1, y: 1},
         event_queue = [],
         default_interval = 20,
@@ -8,6 +8,7 @@ virtualpointer = function() {
         default_screen_x_offset = 1,
         default_screen_y_offset = 30;
 
+    // function to dispatch event inside the browser
     function send_event(type, clientX, clientY, element, button, screenX, screenY) {
         // calculate screenX and screenY if not provided
         if (!screenX) screenX = clientX + default_screen_x_offset;
@@ -23,15 +24,16 @@ virtualpointer = function() {
         var eventObject = document.createEvent("MouseEvent");
         eventObject.initMouseEvent(type,  true, true, window, detail, screenX, screenY, clientX, clientY, false, false, false, false, button, null);
 
-        // if element specified, fire element on the event object
+        // if element specified, fire event on the element object
         if (element) {
             element.dispatchEvent(eventObject);
-        // otherwise fire it on document.body
+        // otherwise fire event on document.body
         } else {
             document.body.dispatchEvent(eventObject);
         }
     }
 
+    // processes event stack
     function process_event_queue() {
         if (event_queue.length) {
             var current_event = event_queue[0];
@@ -47,6 +49,7 @@ virtualpointer = function() {
         }
     }
 
+    // constructs mouse movement stack to move mouse to an element over a set amount of time
     function build_mouse_movement_queue(element, duration) {
         // calculate position of element
         var body_rect = document.body.getBoundingClientRect(),
@@ -67,6 +70,8 @@ virtualpointer = function() {
         }
         
     }
+
+    // construct click event stack to click on an element
     function build_click_event_queue(element) {
         // calculate position of element
         var body_rect = document.body.getBoundingClientRect(),
@@ -79,13 +84,13 @@ virtualpointer = function() {
         var last_timestamp = (event_queue.length) ? event_queue[event_queue.length - 1].timestamp : 0;
 
         // construct correct sequence of events for mouse movement, mousedown, mouseup, then click
-        event_queue.push({type: "mousedown", pageX: x_offset, pageY: x_offset, screenX: x_offset + default_screen_x_offset, screenY: y_offset + default_screen_y_offset, timestamp: last_timestamp});
-        event_queue.push({type: "mouseup", pageX: x_offset, pageY: x_offset, screenX: x_offset + default_screen_x_offset, screenY: y_offset + default_screen_y_offset, timestamp: last_timestamp + click_duration});
-        event_queue.push({type: "click", pageX: x_offset, pageY: x_offset, screenX: x_offset + default_screen_x_offset, screenY: y_offset + default_screen_y_offset, timestamp: last_timestamp + click_duration + 10});
+        event_queue.push({type: "mousedown", pageX: x_offset, pageY: x_offset, screenX: x_offset + default_screen_x_offset, screenY: y_offset + default_screen_y_offset, timestamp: last_timestamp, element: element});
+        event_queue.push({type: "mouseup", pageX: x_offset, pageY: x_offset, screenX: x_offset + default_screen_x_offset, screenY: y_offset + default_screen_y_offset, timestamp: last_timestamp + click_duration, element: element});
+        event_queue.push({type: "click", pageX: x_offset, pageY: x_offset, screenX: x_offset + default_screen_x_offset, screenY: y_offset + default_screen_y_offset, timestamp: last_timestamp + click_duration + 10, element: element});
     }
 
+    // exposed functions that can be valled using virtualpointer.function_name();
     return {
-        // exposed functions that can be valled using virtualpointer.function_name();
         move_mouse_to_element: function(element, duration) {
             build_mouse_movement_queue(element, duration);
             setTimeout(function() { process_event_queue(); }.bind(this), first_event_offset);
@@ -99,6 +104,7 @@ virtualpointer = function() {
             build_click_event_queue(element);
             setTimeout(function() { process_event_queue(); }.bind(this), first_event_offset);
         },
+        // used for executing a serialized set of JSON events
         run_serialized_events: function(events) {
             if (!events || ! events instanceof Array) return;
 
