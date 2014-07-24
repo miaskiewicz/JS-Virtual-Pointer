@@ -26,3 +26,8 @@ array_of_events must be a serialized JSON array of events, with the following pr
 Example
 ==================
 open up example.html and open up the JavaScript console in your web-browser; you should have a log of events that have been fired programmatically.... you can then run any of the commands above
+
+
+Dependencies
+==================
+None; uses native JavaScript
