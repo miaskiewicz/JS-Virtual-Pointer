@@ -95,13 +95,13 @@ virtualpointer = function() {
             var clickDuration = Math.random() * (250 - 20) + 20;
 
             // dispatch correct sequence of events
-            this.send_event('mousedown', x_offset, y_offset, element);
+            send_event('mousedown', x_offset, y_offset, element);
             setTimeout(function() { send_event('click', x_offset, y_offset, element); }.bind(this), clickDuration + 10);
             setTimeout(function() { send_event('mouseup', x_offset, y_offset, element); }.bind(this), clickDuration);
         },
         move_to_element_and_click: function(element, duration) {
             move_mouse_to(element, duration);
-            setTimeout(function() { perform_click( element ); }.bind(this), duration + 50);
+            setTimeout(function() { this.perform_click( element ); }.bind(this), duration + 50);
         },
         run_serialized_events: function(events) {
             if (!events || ! events instanceof Array) return;
