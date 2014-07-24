@@ -89,27 +89,31 @@ virtualpointer = function() {
         event_queue.push({type: "click", pageX: x_offset, pageY: x_offset, screenX: x_offset + default_screen_x_offset, screenY: y_offset + default_screen_y_offset, timestamp: last_timestamp + click_duration + 10, element: element});
     }
 
+    function start_processing_events() {
+        setTimeout(process_event_queue, first_event_offset);
+    }
+
     // exposed functions that can be valled using virtualpointer.function_name();
     return {
         move_mouse_to_element: function(element, duration) {
             build_mouse_movement_queue(element, duration);
-            setTimeout(function() { process_event_queue(); }.bind(this), first_event_offset);
+            start_processing_events();
         },
         click_element: function(element) {
             build_click_event_queue(element);
-            setTimeout(function() { process_event_queue(); }.bind(this), first_event_offset);
+            start_processing_events();
         },
         move_to_element_and_click: function(element, duration) {
             build_mouse_movement_queue(element, duration);
             build_click_event_queue(element);
-            setTimeout(function() { process_event_queue(); }.bind(this), first_event_offset);
+            start_processing_events();
         },
         // used for executing a serialized set of JSON events
         run_serialized_events: function(events) {
             if (!events || ! events instanceof Array) return;
 
             event_queue = events;
-            setTimeout(function() { process_event_queue(); }.bind(this), first_event_offset);
+            start_processing_events();
         }
     }
 }();
