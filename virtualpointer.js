@@ -141,7 +141,7 @@ var virtualpointer = function() {
                                 pageY:          element_offset.y, 
                                 screenX:        screenX,
                                 screenY:        screenY,
-                                timestamp:      last_timestamp, 
+                                timestamp:      last_timestamp + Math.floor(default_click_duration / 2), 
                                 target:         element, 
                                 is_touch_event: touch_event
                             });
@@ -169,7 +169,7 @@ var virtualpointer = function() {
                                 pageY:          element_offset.y, 
                                 screenX:        screenX,
                                 screenY:        screenY,
-                                timestamp:      last_timestamp + default_click_duration, 
+                                timestamp:      last_timestamp + default_click_duration + 10, 
                                 target:         element, 
                                 is_touch_event: touch_event
                         });
@@ -180,7 +180,7 @@ var virtualpointer = function() {
                                 pageY:          element_offset.y, 
                                 screenX:        screenX, 
                                 screenY:        screenY, 
-                                timestamp:      last_timestamp + default_click_duration, 
+                                timestamp:      last_timestamp + default_click_duration + 20, 
                                 target:         element, 
                                 is_touch_event: touch_event
                         });
@@ -191,7 +191,7 @@ var virtualpointer = function() {
                                 pageY:          element_offset.y, 
                                 screenX:        screenX, 
                                 screenY:        screenY, 
-                                timestamp:      last_timestamp, 
+                                timestamp:      last_timestamp + default_click_duration + 20, 
                                 target:         element, 
                                 is_touch_event: touch_event
                         });
@@ -202,7 +202,7 @@ var virtualpointer = function() {
                                 pageY:          element_offset.y, 
                                 screenX:        screenX,
                                 screenY:        screenY, 
-                                timestamp:      last_timestamp + default_click_duration, 
+                                timestamp:      last_timestamp + (default_click_duration * 2), 
                                 target:         element, 
                                 is_touch_event: touch_event
                         });
@@ -213,7 +213,7 @@ var virtualpointer = function() {
                                 pageY:          element_offset.y, 
                                 screenX:        screenX,
                                 screenY:        screenY, 
-                                timestamp:      last_timestamp + default_click_duration + 10, 
+                                timestamp:      last_timestamp + (default_click_duration * 2) + 10, 
                                 target:         element, 
                                 is_touch_event: touch_event
                         });
