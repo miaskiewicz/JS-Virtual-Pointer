@@ -18,7 +18,7 @@ virtualpointer.tap_element(element); // mobile tap
 
 virtualpointer.double_tap_element(element); // mobile double tap
 
-virtualpointer.flick_to_element(element); // drag on screen to scroll to element (mobile)
+virtualpointer.flick_to_element(element, length_of_flick_movement); // drag on screen to scroll to element (mobile)
 
 array_of_events must be a serialized JSON array of events, with the following properties for each event:
 - type: type of event (e.g. mousemove, mousedown, etc.)
@@ -28,6 +28,8 @@ array_of_events must be a serialized JSON array of events, with the following pr
 - screenY: screenY value for the mouse event
 - timestamp: timestamp of event; this will be used to calculate the time between one event and the next, so no need for the timestamps to start from zero
 - element: DOM element on which to fire mouse event (this is optional; if the element is not specified, event will be fired on document.body instead)
+
+duration for all mouse movements is expressed in milliseconds, e.g. virtualpointer.move_to_element_and_click(element, 5000) will take 5 seconds to complete the mouse movements
 
 Example
 ==================
