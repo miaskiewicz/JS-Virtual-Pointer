@@ -16,9 +16,9 @@ virtualpointer.run_serialized_events(array_of_events);
 
 virtualpointer.tap_element(element); // mobile tap
 
-virtual_pointer.double_tap_element(element); // mobile double tap
+virtualpointer.double_tap_element(element); // mobile double tap
 
-virtual_pointer.flick_to_element(element); // drag on screen to scroll to element (mobile)
+virtualpointer.flick_to_element(element); // drag on screen to scroll to element (mobile)
 
 array_of_events must be a serialized JSON array of events, with the following properties for each event:
 - type: type of event (e.g. mousemove, mousedown, etc.)
