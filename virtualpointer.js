@@ -28,7 +28,7 @@ var virtualpointer = function() {
         }
 
         // detail is the value for # of times this element has been clicked, set it to 1 when doing click events
-        var detail = (type !== 'mousemove') ? 1 : 0;
+        var detail = (type !== 'mousemove' && type !== 'touchmove') ? 1 : 0;
 
         // construct new event object, either touch or mouse event
         if (is_touch_event && 
@@ -48,6 +48,8 @@ var virtualpointer = function() {
         } else {
             document.body.dispatchEvent(eventObject);
         }
+        
+        mouse_position = {x: screenX, y: screenY};
     }
 
     // processes event stack
@@ -83,7 +85,7 @@ var virtualpointer = function() {
         for (var i = 1; i <= increments; i++) {
             var new_x_pos = Math.round(x_distance / increments * i) + mouse_position.x,
                 new_y_pos = Math.round(y_distance / increments * i) + mouse_position.y;
-                
+
             event_queue.push({
                                 pageX: new_x_pos, 
                                 pageY: new_y_pos, 
