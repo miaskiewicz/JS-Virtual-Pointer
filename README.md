@@ -14,6 +14,12 @@ virtualpointer.move_to_element_and_click(element, length_of_mouse_movement);
 
 virtualpointer.run_serialized_events(array_of_events);
 
+virtualpointer.tap_element(element); // mobile tap
+
+virtual_pointer.double_tap_element(element); // mobile double tap
+
+virtual_pointer.flick_to_element(element); // drag on screen to scroll to element (mobile)
+
 array_of_events must be a serialized JSON array of events, with the following properties for each event:
 - type: type of event (e.g. mousemove, mousedown, etc.)
 - pageX: pageX value for the mouse event
@@ -35,4 +41,6 @@ None; uses native JavaScript
 Potential Issues
 ==================
 You can't run this inside a headless browser that depends on the jsdom.js library, such as Zombie.js, because jsdom.js doesn't have any notion of page layout (or dimensions of elements on the page) and does not implement getBoundingClientRect, etc.
+
+You can't run touch events inside browsers that do not support touch events; the fallback is to just use mousedown / mousemove / mouseup for these cases
 
