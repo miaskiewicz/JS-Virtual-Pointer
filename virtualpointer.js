@@ -32,11 +32,18 @@ virtualpointer = function() {
 
     function run_mouse_moves() {
         var index = current_mouse_move_index;
+
         send_event('mousemove', mouse_move_queue[index][0], mouse_move_queue[index][1]);
         if (index >= mouse_move_queue.length - 1) {
             window.clearInterval(mouse_move_interval);
             mouse_position = {x: mouse_move_queue[index][0], y: mouse_move_queue[index][1]};
-            mouse_move_queue = [];
+
+            current_mouse_move_index = 0;
+
+            // clear out mouse_move_queue
+            while (mouse_move_queue.length > 0) {
+                mouse_move_queue.pop();
+            }
         }
         current_mouse_move_index++;
         
@@ -56,7 +63,11 @@ virtualpointer = function() {
         } else {
             // restore defaults
             current_event_index = 0;
-            event_queue = [];
+            
+            // clear out event_queue
+            while (event_queue.length > 0) {
+                event_queue.pop();
+            }
         }
     }
 

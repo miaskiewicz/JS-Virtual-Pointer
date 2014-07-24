@@ -6,8 +6,6 @@ Emulate a human's mouse-movements using this JavaScript-based virtual pointer; t
 Usage
 ==================
 
-virtualpointer.move_mouse_to(element, length_of_mouse_movement);
-
 virtualpointer.perform_click(element);
 
 virtualpointer.move_to_element_and_click(element, length_of_mouse_movement);
