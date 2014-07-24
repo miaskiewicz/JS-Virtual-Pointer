@@ -95,12 +95,12 @@ var virtualpointer = function() {
                 new_y_pos = Math.round(y_distance / increments * i) + mouse_position.y;
 
             event_queue.push({
-                                pageX: new_x_pos, 
-                                pageY: new_y_pos, 
-                                screenX: new_x_pos + default_screen_x_offset, 
-                                screenY: new_y_pos + default_screen_y_offset, 
-                                type: "mousemove", 
-                                timestamp: i * default_interval
+                                type:           "mousemove",
+                                pageX:          new_x_pos, 
+                                pageY:          new_y_pos, 
+                                screenX:        new_x_pos + default_screen_x_offset, 
+                                screenY:        new_y_pos + default_screen_y_offset,  
+                                timestamp:      i * default_interval
                             });
         }
         
@@ -226,7 +226,8 @@ var virtualpointer = function() {
                 new_y_pos = Math.round(y_distance / increments * i) + mouse_position.y;
 
             event_queue.push({
-                                type:           "touchmove", pageX: new_x_pos, 
+                                type:           "touchmove", 
+                                pageX:          new_x_pos, 
                                 pageY:          new_y_pos, 
                                 screenX:        new_x_pos, 
                                 screenY:        new_y_pos, 
