@@ -410,6 +410,9 @@ mw.config.set({"wgBackendResponseTime":272,"wgHostname":"mw1021"});
     document.body.addEventListener('click', function(event) { console.log('CLICK\n\n', event); });
     document.body.addEventListener('mouseup', function(event) { console.log('MOUSEUP\n\n', event); });
     document.body.addEventListener('mousemove', function(event) { console.log('MOUSEMOVE\n\n', event); });
+    document.body.addEventListener('touchstart', function(event) { console.log('MOUSEMOVE\n\n', event); });
+    document.body.addEventListener('touchmove', function(event) { console.log('MOUSEMOVE\n\n', event); });
+    document.body.addEventListener('touchend', function(event) { console.log('MOUSEMOVE\n\n', event); });
 
     virtualpointer.run_serialized_events(
     [
