@@ -41,6 +41,8 @@ virtualpointer.flick_to_element($("#footer"), 2500);
 
 virtualpointer.move_to_element_and_click( $("#pt-createaccount a"), 1000); 
 
+note: this last command will redirect you to the create account page on wikipedia since the command moves the mouse to the create account link and then clicks on it
+
 Dependencies
 ==================
 None; uses native JavaScript
