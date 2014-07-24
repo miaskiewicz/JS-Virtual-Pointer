@@ -121,13 +121,26 @@ var virtualpointer = function() {
 
         // mobile events are different (touchstart)
         if (is_mobile) {
+            var screen_x = element_offset.x,
+                screen_y = element_offset.y;
 
             event_queue.push({
                                 type:           "touchstart", 
                                 pageX:          element_offset.x, 
                                 pageY:          element_offset.y, 
-                                screenX:        element_offset.x, 
-                                screenY:        element_offset.y, 
+                                screenX:        screenX,
+                                screenY:        screenY, 
+                                timestamp:      last_timestamp, 
+                                target:         element, 
+                                is_touch_event: touch_event
+                            });
+
+            event_queue.push({
+                                type:           "touchmove", 
+                                pageX:          element_offset.x, 
+                                pageY:          element_offset.y, 
+                                screenX:        screenX,
+                                screenY:        screenY,
                                 timestamp:      last_timestamp, 
                                 target:         element, 
                                 is_touch_event: touch_event
@@ -137,60 +150,74 @@ var virtualpointer = function() {
                                 type:           "touchend", 
                                 pageX:          element_offset.x, 
                                 pageY:          element_offset.y, 
-                                screenX:        element_offset.x, 
-                                screenY:        element_offset.y, 
+                                screenX:        screenX,
+                                screenY:        screenY,
                                 timestamp:      last_timestamp + default_click_duration, 
                                 target:         element, 
                                 is_touch_event: touch_event
                             });
             
-            event_queue.push({
-                                type:           "click", 
-                                pageX:          element_offset.x, 
-                                pageY:          element_offset.y, 
-                                screenX:        element_offset.x,
-                                screenY:        element_offset.y,
-                                timestamp:      last_timestamp + default_click_duration + 10, 
-                                target:         element, 
-                                is_touch_event: touch_event
-                            });
 
         } else {
+            var screen_x = element_offset.x + default_screen_x_offset,
+                screen_y = element_offset.y + default_screen_y_offset;
+        }
 
-            event_queue.push({
-                                type:           "mousedown", 
+        event_queue.push({
+                                type:           "mouseover", 
                                 pageX:          element_offset.x, 
                                 pageY:          element_offset.y, 
-                                screenX:        element_offset.x + default_screen_x_offset, 
-                                screenY:        element_offset.y + default_screen_y_offset, 
-                                timestamp:      last_timestamp, 
-                                target:         element, 
-                                is_touch_event: touch_event
-                            });
-
-            event_queue.push({
-                                type:           "mouseup", 
-                                pageX:          element_offset.x, 
-                                pageY:          element_offset.y, 
-                                screenX:        element_offset.x + default_screen_x_offset, 
-                                screenY:        element_offset.y + default_screen_y_offset, 
+                                screenX:        screenX,
+                                screenY:        screenY,
                                 timestamp:      last_timestamp + default_click_duration, 
                                 target:         element, 
                                 is_touch_event: touch_event
-                            });
+                        });
 
-            event_queue.push({
+        event_queue.push({
+                                type:           "mousemove", 
+                                pageX:          element_offset.x, 
+                                pageY:          element_offset.y, 
+                                screenX:        screenX, 
+                                screenY:        screenY, 
+                                timestamp:      last_timestamp + default_click_duration, 
+                                target:         element, 
+                                is_touch_event: touch_event
+                        });
+        
+        event_queue.push({
+                                type:           "mousedown", 
+                                pageX:          element_offset.x, 
+                                pageY:          element_offset.y, 
+                                screenX:        screenX, 
+                                screenY:        screenY, 
+                                timestamp:      last_timestamp, 
+                                target:         element, 
+                                is_touch_event: touch_event
+                        });
+
+        event_queue.push({
+                                type:           "mouseup", 
+                                pageX:          element_offset.x, 
+                                pageY:          element_offset.y, 
+                                screenX:        screenX,
+                                screenY:        screenY, 
+                                timestamp:      last_timestamp + default_click_duration, 
+                                target:         element, 
+                                is_touch_event: touch_event
+                        });
+
+        event_queue.push({
                                 type:           "click", 
                                 pageX:          element_offset.x, 
                                 pageY:          element_offset.y, 
-                                screenX:        element_offset.x + default_screen_x_offset, 
-                                screenY:        element_offset.y + default_screen_y_offset, 
+                                screenX:        screenX,
+                                screenY:        screenY, 
                                 timestamp:      last_timestamp + default_click_duration + 10, 
                                 target:         element, 
                                 is_touch_event: touch_event
-                            });
+                        });
 
-        }
 
     }
 
