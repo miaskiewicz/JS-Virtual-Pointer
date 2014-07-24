@@ -48,7 +48,7 @@ var virtualpointer = function() {
         } else {
             document.body.dispatchEvent(eventObject);
         }
-        
+
         mouse_position = {x: screenX, y: screenY};
     }
 
@@ -68,17 +68,25 @@ var virtualpointer = function() {
         }
     }
 
-    // constructs mouse movement stack to move mouse to an element over a set amount of time
-    function build_mouse_movement_queue(element, duration, is_mobile) {
+    function get_offset_of_element(element) {
         // calculate position of element
         var body_rect = document.body.getBoundingClientRect(),
             elem_rect = element.getBoundingClientRect(),
             y_offset  = elem_rect.top - body_rect.top,
             x_offset  = elem_rect.left - body_rect.left;
 
+        // return values
+        return {x: x_offset, y: y_offset};
+    }
+
+    // constructs mouse movement stack to move mouse to an element over a set amount of time
+    function build_mouse_movement_queue(element, duration, is_mobile) {
+        // calculate position of element
+        var element_offset = get_offset_of_element(element);
+
         // calculate distance
-        var x_distance = x_offset - mouse_position.x,
-            y_distance = y_offset - mouse_position.y;
+        var x_distance = element_offset.x - mouse_position.x,
+            y_distance = element_offset.y - mouse_position.y;
 
         // determine number of increments
         var increments = duration / default_interval; // divide number of milliseconds for duration by 20, since we want to send events every 20ish milliseconds
@@ -91,7 +99,8 @@ var virtualpointer = function() {
                                 pageY: new_y_pos, 
                                 screenX: new_x_pos + default_screen_x_offset, 
                                 screenY: new_y_pos + default_screen_y_offset, 
-                                type: "mousemove", timestamp: i * default_interval
+                                type: "mousemove", 
+                                timestamp: i * default_interval
                             });
         }
         
@@ -100,10 +109,7 @@ var virtualpointer = function() {
     // construct click event stack to click on an element
     function build_click_event_queue(element, duration, is_mobile) {
         // calculate position of element
-        var body_rect = document.body.getBoundingClientRect(),
-            elem_rect = element.getBoundingClientRect(),
-            y_offset  = Math.round( elem_rect.top - body_rect.top ),
-            x_offset  = Math.round( elem_rect.left - body_rect.left );
+        var element_offset = get_offset_of_element(element);
 
         // get timestamp of last event in queue
         var last_timestamp = (event_queue.length) ? event_queue[event_queue.length - 1].timestamp : 0;
@@ -118,10 +124,10 @@ var virtualpointer = function() {
 
             event_queue.push({
                                 type: "touchstart", 
-                                pageX: x_offset, 
-                                pageY: y_offset, 
-                                screenX: x_offset, 
-                                screenY: y_offset, 
+                                pageX: element_offset.x, 
+                                pageY: element_offset.y, 
+                                screenX: element_offset.x, 
+                                screenY: element_offset.y, 
                                 timestamp: last_timestamp, 
                                 target: element, 
                                 is_touch_event: touch_event
@@ -129,21 +135,32 @@ var virtualpointer = function() {
 
             event_queue.push({
                                 type: "touchend", 
-                                pageX: x_offset, 
-                                pageY: y_offset, 
-                                screenX: x_offset, 
-                                screenY: y_offset, 
+                                pageX: element_offset.x, 
+                                pageY: element_offset.y, 
+                                screenX: element_offset.x, 
+                                screenY: element_offset.y, 
                                 timestamp: last_timestamp + default_click_duration, 
                                 target: element, is_touch_event: touch_event
                             });
+            event_queue.push({
+                            type: "click", 
+                            pageX: element_offset.x, 
+                            pageY: element_offset.y, 
+                            screenX: element_offset.x,
+                            screenY: element_offset.y,
+                            timestamp: last_timestamp + default_click_duration + 10, 
+                            target: element, 
+                            is_touch_event: touch_event
+                        });
+
         } else {
 
             event_queue.push({
                                 type: "mousedown", 
-                                pageX: x_offset, 
-                                pageY: y_offset, 
-                                screenX: x_offset + default_screen_x_offset, 
-                                screenY: y_offset + default_screen_y_offset, 
+                                pageX: element_offset.x, 
+                                pageY: element_offset.y, 
+                                screenX: element_offset.x + default_screen_x_offset, 
+                                screenY: element_offset.y + default_screen_y_offset, 
                                 timestamp: last_timestamp, 
                                 target: element, 
                                 is_touch_event: touch_event
@@ -151,26 +168,27 @@ var virtualpointer = function() {
 
             event_queue.push({
                                 type: "mouseup", 
-                                pageX: x_offset, 
-                                pageY: x_offset, 
-                                screenX: x_offset + default_screen_x_offset, 
-                                screenY: y_offset + default_screen_y_offset, 
+                                pageX: element_offset.x, 
+                                pageY: element_offset.y, 
+                                screenX: element_offset.x + default_screen_x_offset, 
+                                screenY: element_offset.y + default_screen_y_offset, 
                                 timestamp: last_timestamp + default_click_duration, 
                                 target: element, 
                                 is_touch_event: touch_event
                             });
+            event_queue.push({
+                                type: "click", 
+                                pageX: element_offset.x, 
+                                pageY: element_offset.y, 
+                                screenX: element_offset.x + default_screen_x_offset, 
+                                screenY: element_offset.y + default_screen_y_offset, 
+                                timestamp: last_timestamp + default_click_duration + 10, 
+                                target: element, 
+                                is_touch_event: touch_event
+                            });
+
         }
 
-        event_queue.push({
-                            type: "click", 
-                            pageX: x_offset, 
-                            pageY: x_offset, 
-                            screenX: x_offset + default_screen_x_offset, 
-                            screenY: y_offset + default_screen_y_offset, 
-                            timestamp: last_timestamp + default_click_duration + 10, 
-                            target: element, 
-                            is_touch_event: touch_event
-                        });
     }
 
     // move screen to element with correct touch events, as in mobile or tablet browser
@@ -259,7 +277,7 @@ var virtualpointer = function() {
             start_processing_events();
         },
         flick_to_element: function(element, duration) {
-            build_flick_event_queue(element);
+            build_flick_event_queue(element, duration);
             start_processing_events();
         },
         // used for executing a serialized set of JSON events
