@@ -33,6 +33,15 @@ Example
 ==================
 open up example.html and open up the JavaScript console in your web-browser; you should have a log of events that have been fired programmatically.... you can then run any of the commands above
 
+example commands:
+
+virtualpointer.move_mouse_to_element($("#firstHeading"), 2500);
+
+virtualpointer.flick_to_element($("#footer"), 2500);
+
+virtual_pointer.move_to_element_and_click( $("#pt-createaccount a"), 1000); 
+
+Note: the last command clicks on a link that re-directs you to a page on Wikipedia for creating an account
 
 Dependencies
 ==================
