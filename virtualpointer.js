@@ -60,29 +60,30 @@ virtualpointer = function() {
         }
     }
 
+    function move_mouse_to(element, duration) {
+        // calculate position of element
+        var bodyRect = document.body.getBoundingClientRect(),
+            elemRect = element.getBoundingClientRect();
+        var y_offset = elemRect.top - bodyRect.top;
+        var x_offset = elemRect.left - bodyRect.left;
+
+
+        // calculate distance
+        var x_distance = x_offset - mouse_position.x;
+        var y_distance = y_offset - mouse_position.y;
+
+        // determine number of increments
+        var increments = duration / 20; // divide number of milliseconds for duration by 20, since we want to send events every 20ish milliseconds
+        for (var i = 1; i <= increments; i++) {
+            var new_x_pos = Math.round(x_distance / increments * i) + mouse_position.x;
+            var new_y_pos = Math.round(y_distance / increments * i) + mouse_position.y;
+            mouse_move_queue.push([new_x_pos, new_y_pos]);
+            
+        }
+        mouse_move_interval = window.setInterval(run_mouse_moves, default_interval);
+    }
+
     return {
-        move_mouse_to: function(element, duration) {
-            // calculate position of element
-            var bodyRect = document.body.getBoundingClientRect(),
-                elemRect = element.getBoundingClientRect();
-            var y_offset = elemRect.top - bodyRect.top;
-            var x_offset = elemRect.left - bodyRect.left;
-
-
-            // calculate distance
-            var x_distance = x_offset - mouse_position.x;
-            var y_distance = y_offset - mouse_position.y;
-
-            // determine number of increments
-            var increments = duration / 20; // divide number of milliseconds for duration by 20, since we want to send events every 20ish milliseconds
-            for (var i = 1; i <= increments; i++) {
-                var new_x_pos = Math.round(x_distance / increments * i) + mouse_position.x;
-                var new_y_pos = Math.round(y_distance / increments * i) + mouse_position.y;
-                this.mouse_move_queue.push([new_x_pos, new_y_pos]);
-                
-            }
-            this.mouse_move_interval = window.setInterval(run_mouse_moves, this.default_interval);
-        },
         perform_click: function(element) {
             // calculate position of element
             var bodyRect = document.body.getBoundingClientRect(),
