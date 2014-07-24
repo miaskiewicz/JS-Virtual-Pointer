@@ -39,9 +39,7 @@ virtualpointer.move_mouse_to_element($("#firstHeading"), 2500);
 
 virtualpointer.flick_to_element($("#footer"), 2500);
 
-virtual_pointer.move_to_element_and_click( $("#pt-createaccount a"), 1000); 
-
-Note: the last command clicks on a link that re-directs you to a page on Wikipedia for creating an account
+virtualpointer.move_to_element_and_click( $("#pt-createaccount a"), 1000); 
 
 Dependencies
 ==================
