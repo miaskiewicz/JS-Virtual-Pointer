@@ -117,7 +117,6 @@ var virtualpointer = function() {
         if (!duration) {
             duration = default_click_duration;
         }
-        var touch_event = (is_mobile) ? true : false;
 
         // mobile events are different (touchstart)
         if (is_mobile) {
@@ -132,7 +131,7 @@ var virtualpointer = function() {
                                 screenY:        screenY, 
                                 timestamp:      last_timestamp, 
                                 target:         element, 
-                                is_touch_event: touch_event
+                                is_touch_event: true
                             });
 
             event_queue.push({
@@ -143,7 +142,7 @@ var virtualpointer = function() {
                                 screenY:        screenY,
                                 timestamp:      last_timestamp + Math.floor(default_click_duration / 2), 
                                 target:         element, 
-                                is_touch_event: touch_event
+                                is_touch_event: true
                             });
 
             event_queue.push({
@@ -154,7 +153,7 @@ var virtualpointer = function() {
                                 screenY:        screenY,
                                 timestamp:      last_timestamp + default_click_duration, 
                                 target:         element, 
-                                is_touch_event: touch_event
+                                is_touch_event: true
                             });
             
 
@@ -171,7 +170,7 @@ var virtualpointer = function() {
                                 screenY:        screenY,
                                 timestamp:      last_timestamp + default_click_duration + 10, 
                                 target:         element, 
-                                is_touch_event: touch_event
+                                is_touch_event: false
                         });
 
         event_queue.push({
@@ -182,7 +181,7 @@ var virtualpointer = function() {
                                 screenY:        screenY, 
                                 timestamp:      last_timestamp + default_click_duration + 20, 
                                 target:         element, 
-                                is_touch_event: touch_event
+                                is_touch_event: false
                         });
         
         event_queue.push({
@@ -193,7 +192,7 @@ var virtualpointer = function() {
                                 screenY:        screenY, 
                                 timestamp:      last_timestamp + default_click_duration + 20, 
                                 target:         element, 
-                                is_touch_event: touch_event
+                                is_touch_event: false
                         });
 
         event_queue.push({
@@ -204,7 +203,7 @@ var virtualpointer = function() {
                                 screenY:        screenY, 
                                 timestamp:      last_timestamp + (default_click_duration * 2), 
                                 target:         element, 
-                                is_touch_event: touch_event
+                                is_touch_event: false
                         });
 
         event_queue.push({
@@ -215,7 +214,7 @@ var virtualpointer = function() {
                                 screenY:        screenY, 
                                 timestamp:      last_timestamp + (default_click_duration * 2) + 10, 
                                 target:         element, 
-                                is_touch_event: touch_event
+                                is_touch_event: false
                         });
 
 
