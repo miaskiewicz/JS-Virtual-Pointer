@@ -24,7 +24,7 @@ var virtualpointer = function() {
         // if button is not specified, assume the button is the left mouse button
         if (!button && ( type === 'click' || type === 'mousedown' || type === 'mouseup') ) {
             button = 0; // left button is default
-            // TODO: handle IE8 where left button = 0
+            // TODO: handle IE8 and below where left button = 0
         }
 
         // detail is the value for # of times this element has been clicked, set it to 1 when doing click events
