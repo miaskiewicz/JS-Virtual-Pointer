@@ -12,7 +12,12 @@ var virtualpointer = function() {
         default_screen_y_offset = 30;
 
     // function to dispatch event inside the browser
-    function send_event(type, clientX, clientY, element, button, screenX, screenY, is_touch_event) {
+    function send_event(type, clientX, clientY, element, button, screenX, screenY, is_touch_event, scrollLeft, scrollTop) {
+        if (type == 'scroll') {
+            window.scrollTo(scrollLeft, scrollTop);
+            return;
+        }
+
         // calculate screenX and screenY if not provided
         if (!screenX) { 
             screenX = clientX + default_screen_x_offset; 
@@ -58,7 +63,7 @@ var virtualpointer = function() {
             var current_event = event_queue[0],
                 next_event    = event_queue[1];
 
-            send_event(current_event.type, current_event.pageX, current_event.pageY, current_event.target, null, current_event.screenX, current_event.screenY, current_event.is_touch_event);
+            send_event(current_event.type, current_event.pageX, current_event.pageY, current_event.target, null, current_event.screenX, current_event.screenY, current_event.is_touch_event, current_event.scrollLeft, current_event.scrollTop);
 
             if (next_event) {
                 var offset = next_event.timestamp - current_event.timestamp;
