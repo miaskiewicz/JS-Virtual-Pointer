@@ -12,7 +12,7 @@ var virtualpointer = function() {
         default_screen_y_offset = 30;
 
     // function to dispatch event inside the browser
-    function send_event(type, clientX, clientY, element, button, screenX, screenY, is_touch_event, scrollLeft, scrollTop) {
+    function send_event(type, clientX, clientY, element, button, screenX, screenY, isTouchEvent, scrollLeft, scrollTop) {
         if (type == 'scroll') {
             window.scrollTo(scrollLeft, scrollTop);
             return;
@@ -36,7 +36,7 @@ var virtualpointer = function() {
         var detail = (type !== 'mousemove' && type !== 'touchmove') ? 1 : 0;
 
         // construct new event object, either touch or mouse event
-        if (is_touch_event && 
+        if (isTouchEvent && 
              ( ('ontouchstart' in window) || (navigator.msMaxTouchPoints > 0) ) 
            ) {
 
@@ -63,7 +63,7 @@ var virtualpointer = function() {
             var current_event = event_queue[0],
                 next_event    = event_queue[1];
 
-            send_event(current_event.type, current_event.pageX, current_event.pageY, current_event.target, null, current_event.screenX, current_event.screenY, current_event.is_touch_event, current_event.scrollLeft, current_event.scrollTop);
+            send_event(current_event.type, current_event.pageX, current_event.pageY, current_event.target, null, current_event.screenX, current_event.screenY, current_event.isTouchEvent, current_event.scrollLeft, current_event.scrollTop);
 
             if (next_event) {
                 var offset = next_event.timestamp - current_event.timestamp;
@@ -136,7 +136,7 @@ var virtualpointer = function() {
                                 screenY:        screenY, 
                                 timestamp:      last_timestamp, 
                                 target:         element, 
-                                is_touch_event: true
+                                isTouchEvent: true
                             });
 
             event_queue.push({
@@ -147,7 +147,7 @@ var virtualpointer = function() {
                                 screenY:        screenY,
                                 timestamp:      last_timestamp + Math.floor(default_click_duration / 2), 
                                 target:         element, 
-                                is_touch_event: true
+                                isTouchEvent: true
                             });
 
             event_queue.push({
@@ -158,7 +158,7 @@ var virtualpointer = function() {
                                 screenY:        screenY,
                                 timestamp:      last_timestamp + default_click_duration, 
                                 target:         element, 
-                                is_touch_event: true
+                                isTouchEvent: true
                             });
             
 
@@ -175,7 +175,7 @@ var virtualpointer = function() {
                                 screenY:        screenY,
                                 timestamp:      last_timestamp + default_click_duration + 10, 
                                 target:         element, 
-                                is_touch_event: false
+                                isTouchEvent: false
                         });
 
         event_queue.push({
@@ -186,7 +186,7 @@ var virtualpointer = function() {
                                 screenY:        screenY, 
                                 timestamp:      last_timestamp + default_click_duration + 20, 
                                 target:         element, 
-                                is_touch_event: false
+                                isTouchEvent: false
                         });
         
         event_queue.push({
@@ -197,7 +197,7 @@ var virtualpointer = function() {
                                 screenY:        screenY, 
                                 timestamp:      last_timestamp + default_click_duration + 20, 
                                 target:         element, 
-                                is_touch_event: false
+                                isTouchEvent: false
                         });
 
         event_queue.push({
@@ -208,7 +208,7 @@ var virtualpointer = function() {
                                 screenY:        screenY, 
                                 timestamp:      last_timestamp + (default_click_duration * 2), 
                                 target:         element, 
-                                is_touch_event: false
+                                isTouchEvent: false
                         });
 
         event_queue.push({
@@ -219,7 +219,7 @@ var virtualpointer = function() {
                                 screenY:        screenY, 
                                 timestamp:      last_timestamp + (default_click_duration * 2) + 10, 
                                 target:         element, 
-                                is_touch_event: false
+                                isTouchEvent: false
                         });
 
 
@@ -247,7 +247,7 @@ var virtualpointer = function() {
                             screenY:        mouse_position.y, 
                             timestamp:      0, 
                             target:         element, 
-                            is_touch_event: true
+                            isTouchEvent: true
                         });
 
         // determine number of increments
@@ -264,7 +264,7 @@ var virtualpointer = function() {
                                 screenY:        new_y_pos, 
                                 timestamp:      i * default_interval, 
                                 target:         element, 
-                                is_touch_event: true
+                                isTouchEvent: true
                             });
         }
 
@@ -279,7 +279,7 @@ var virtualpointer = function() {
                             screenY:        y_offset, 
                             timestamp:      last_timestamp, 
                             target:         element, 
-                            is_touch_event: true
+                            isTouchEvent: true
                         });
     }
 
