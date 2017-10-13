@@ -48,6 +48,7 @@ var eventrecorder = function() {
   };
 
   var set_event_bindings = function() {
+    bind_event_handler(_d, 'mousemove', event_handler);
     bind_event_handler(_d, 'mousedown', event_handler);
     bind_event_handler(_d, 'mouseup', event_handler);
     bind_event_handler(_d, 'click', event_handler);
