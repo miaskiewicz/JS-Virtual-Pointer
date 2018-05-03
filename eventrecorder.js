@@ -86,6 +86,8 @@ var eventrecorder = function() {
       clientY: event.clientY,
       screenX: event.screenX,
       screenY: event.screenY,
+      movementX: event.movementX,
+      movementY: event.movementY,
       timestamp: event.timeStamp,
       scrollLeft: get_scroll_left(),
       scrollTop: get_scroll_top()
