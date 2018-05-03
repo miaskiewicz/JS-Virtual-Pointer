@@ -82,6 +82,8 @@ var eventrecorder = function() {
       pageY: event.pageY,
       x: event.x,
       y: event.y,
+      clientX: event.clientX,
+      clientY: event.clientY,
       screenX: event.screenX,
       screenY: event.screenY,
       timestamp: event.timeStamp,
